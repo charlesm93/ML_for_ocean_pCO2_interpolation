@@ -302,7 +302,8 @@ def build_nn(num_features, neurons=[512,256], act='relu', use_drop=True, drop_ra
             model.add(Dropout(drop_rate))
     model.add(Dense(units=1))
 
-    model.compile(keras.optimizers.Adam(lr=learning_rate), loss='mse', metrics=['mse'])
+    # NOTE: code modified by Charles (switch keras to tf.keras)
+    model.compile(tf.keras.optimizers.Adam(lr=learning_rate), loss='mse', metrics=['mse'])
 
     return model
 
@@ -313,7 +314,8 @@ def build_nn_vf(num_features, act='relu', learning_rate=0.01, reg=0.001):
     model.add(Dense(units=500, activation=act, kernel_regularizer=regularizers.l2(reg)))
     model.add(Dense(units=1))
 
-    model.compile(keras.optimizers.Adam(lr=learning_rate), loss='mse', metrics=['mse'])
+    # NOTE: code modified by Charles (switch keras to tf.keras)
+    model.compile(tf.keras.optimizers.Adam(lr=learning_rate), loss='mse', metrics=['mse'])
 
     return model
 
