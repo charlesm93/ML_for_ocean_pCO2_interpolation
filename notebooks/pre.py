@@ -32,17 +32,19 @@ def network_mask():
     - caspian sea, black sea, mediterranean sea, baltic sea, Java sea, Red sea
     '''
     ### Load obs directory
-    dir_obs = '/local/data/artemis/observations'
+    dir_obs = '/ML_for_ocean_pCO2_interpolation/'
     
     ### topography
-    ds_topo = xr.open_dataset(f'{dir_obs}/GEBCO_2014/processed/GEBCO_2014_1x1_global.nc')
-    ds_topo = ds_topo.roll(lon=180, roll_coords='lon')
-    ds_topo['lon'] = np.arange(0.5, 360, 1)
+    ### skip for now
+    #ds_topo = xr.open_dataset(f'{dir_obs}/GEBCO_2014/processed/GEBCO_2014_1x1_global.nc')
+    #ds_topo = ds_topo.roll(lon=180, roll_coords='lon')
+    #ds_topo['lon'] = np.arange(0.5, 360, 1)
 
     ### Loads grids
     # land-sea mask
     # land=0, sea=1
-    ds_lsmask = xr.open_dataset(f'{dir_obs}/masks/originals/lsmask.nc').sortby('lat').squeeze().drop('time')
+    ## changed this also
+    ds_lsmask = xr.open_dataset(f'{dir_obs}/mask/originals/lsmask.nc').sortby('lat').squeeze().drop('time')
     data = ds_lsmask['mask'].where(ds_lsmask['mask']==1)
     ### Define Latitude and Longitude
     lon = ds_lsmask['lon']
@@ -54,8 +56,8 @@ def network_mask():
     
     ### Remove shallow sea, less than 100m
     ### This picks out the Solomon islands and Somoa
-    data = data.where(ds_topo['Height']<-100)
-    
+
+
     ### remove arctic
     data = data.where(~((lat>79)))
     data = data.where(~((lat>67) & (lat<80) & (lon>20) & (lon<180)))
@@ -71,6 +73,7 @@ def network_mask():
     ### Remove Red sea
     data = data.where(~((lat>10) & (lat<25) & (lon>10) & (lon<45)))
     data = data.where(~((lat>20) & (lat<50) & (lon>0) & (lon<20)))
+    
     
     return data
 
