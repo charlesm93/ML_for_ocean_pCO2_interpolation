@@ -179,7 +179,8 @@ def import_member_data(ensemble_dir_head, ens, member, dates, xco2_path="/local/
 
     for i in inputs:
         time_len = len(inputs[i].time.values)
-        inputs[i].time.values = dates[0:time_len]
+        #inputs[i].time.values = dates[0:time_len]
+        inputs[i]["time"] = dates[0:time_len]
         if i != 'xco2':
             inputs[i] = inputs[i].transpose('time', 'ylat', 'xlon')
 
