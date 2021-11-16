@@ -32,7 +32,8 @@ def network_mask():
     - caspian sea, black sea, mediterranean sea, baltic sea, Java sea, Red sea
     '''
     ### Load obs directory
-    dir_obs = '/ML_for_ocean_pCO2_interpolation/'
+    # dir_obs = '/ML_for_ocean_pCO2_interpolation/'
+    dir_obs = 'ML_for_ocean_pCO2_interpolation/'
     
     ### topography
     ### skip for now
